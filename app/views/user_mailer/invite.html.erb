@@ -1,0 +1,16 @@
+<div style="width: 50%; margin: 0 auto; padding: 5%; font-family: sans-serif; 
+    background-color: #fafafa; border: 2px solid #f6f6f6; border-radius: 10px; text-align: center" >
+  <h1>Join <%= @team.slug %> on OnbitChat </h1>
+
+  <p style="font-size: 20px; color: #4d4d4d; line-height: 28px;">
+    <%= @user.email %> has invited you to join the OnbitChat team <%= @team.slug %>. Join now to start!
+  </p>
+
+  <%= link_to root_url do %>
+    <p style="background-color: #1eb300; height: 40px; width: 160px; display: inline-block;
+      line-height: 42px; border-radius: 10px; color: #FFF; font-weight: bold;">
+      Join Now
+    </p>
+  <% end %>
+  
+</div>

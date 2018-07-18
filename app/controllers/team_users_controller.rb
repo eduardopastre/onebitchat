@@ -5,12 +5,14 @@ class TeamUsersController < ApplicationController
     @team_user = TeamUser.new(team_user_params)
     authorize! :create, @team_user
 
+    UserMailer.invite(@team_user.user.email, @team_user.team, current_user).deliver_now
+
     respond_to do |format|
-      if @team_user.save
+      #if @team_user.save
         format.json { render :show, status: :created }
-      else
-        format.json { render json: @team_user.errors, status: :unprocessable_entity }
-      end
+      #else
+      #  format.json { render json: @team_user.errors, status: :unprocessable_entity }
+      #end
     end
   end
 
