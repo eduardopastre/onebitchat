@@ -16,7 +16,9 @@ $(document).on 'turbolinks:load', ->
       }
       success: (data, text, jqXHR) ->
         #window.add(data['user']['name'], data['user']['id'], 'user')
-        Materialize.toast('Success in add User &nbsp;<b>:)</b>', 4000, 'green')
+        Materialize.toast('Invite sent successfully &nbsp;<b>:)</b>', 4000, 'green')
+
+        #Materialize.toast('The user is already joined to the team', 4000, 'yellow')
       error: (jqXHR, textStatus, errorThrown) ->
         Materialize.toast('Problem in add User &nbsp;<b>:(</b>', 4000, 'red')
 

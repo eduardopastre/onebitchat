@@ -18,5 +18,8 @@ class Ability
     can [:create, :destroy], TeamUser do |tu|
       tu.team.user_id == user.id || tu.user_id == user.id
     end
+    can [:invite], TeamUser do |tu|
+      tu.team.user_id == user.id
+    end
   end
 end
