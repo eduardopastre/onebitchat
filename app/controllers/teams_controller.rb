@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:destroy]
+  before_action :set_team, only: [:destroy, :invite]
   before_action :set_by_slug_team, only: [:show]
 
   def index
@@ -31,6 +31,19 @@ class TeamsController < ApplicationController
     end
   end
 
+  def invite
+    authorize! :invite, @team
+
+    respond_to do |format|
+      if @team_user.nil?
+        UserMailer.invite(params[:team_user][:email], @team, current_user).deliver_now
+        format.json { render json: 200, status: :created }
+      else
+        format.json { render json: @team_user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   def set_by_slug_team
@@ -43,5 +56,12 @@ class TeamsController < ApplicationController
 
   def team_params
     params.require(:team).permit(:slug).merge(user: current_user)
+  end
+
+  def verify_joined_team_user
+    user = User.find_by(email: params[:team_user][:email])
+    if !user.nil?
+      @team_user = TeamUser.find_by(user_id: user.id, team_id: params[:id])
+    end
   end
 end

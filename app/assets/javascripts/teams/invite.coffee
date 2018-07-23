@@ -1,0 +1,22 @@
+  $(document).on 'turbolinks:load', ->
+    $('.add_user_form').on 'submit', (e) ->
+      $.ajax e.target.action,
+        type: 'POST'
+        dataType: 'json',
+        data: {
+          team_user: {
+            email: $('#team_user_email').val()
+            #team_id: $('#team_user_team_id').val()
+          }
+        }
+        success: (data, text, jqXHR) ->
+          #window.add(data['user']['name'], data['user']['id'], 'user')
+          Materialize.toast('Invite sent successfully &nbsp;<b>:)</b>', 4000, 'green')
+
+          #Materialize.toast('The user is already joined to the team', 4000, 'yellow')
+        error: (jqXHR, textStatus, errorThrown) ->
+          Materialize.toast('Problem in add User &nbsp;<b>:(</b>', 4000, 'red')
+
+
+      $('#add_user_modal').modal('close')
+      return false

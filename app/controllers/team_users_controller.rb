@@ -27,13 +27,13 @@ class TeamUsersController < ApplicationController
   end
 
   def invite
-    authorize! :invite, @current_team_user
-
-    puts "------ AUTORIZED"
+    team_user = TeamUser.new(user_id: current_user.id, team_id: params[:team_user][:team_id])
+    team = Team.find(params[:team_user][:team_id])
+    authorize! :invite, team_user
 
     respond_to do |format|
-      if @team_user.nil?
-        UserMailer.invite(params[:team_user][:email], @current_team_user.team, current_user).deliver_now
+      if @invite_team_user.nil?
+        UserMailer.invite(params[:team_user][:email], team, current_user).deliver_now
         format.json { render :show, status: :created }
       else
         format.json { render json: @team_user.errors, status: :unprocessable_entity }
@@ -53,10 +53,9 @@ class TeamUsersController < ApplicationController
   end
 
   def verify_joined_team_user
-    @current_team_user = TeamUser.find_by(user_id: current_user.id, team_id: params[:team_user][:team_id])
     user = User.find_by(email: params[:team_user][:email])
     if !user.nil?
-      @team_user = TeamUser.find_by(user_id: user.id, team_id:  params[:team_user][:team_id])
+      @invite_team_user = TeamUser.find_by(user_id: user.id, team_id:  params[:team_user][:team_id])
     end
   end
 end
