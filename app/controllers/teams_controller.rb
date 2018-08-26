@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:destroy, :invite]
+  before_action :set_team, only: [:destroy, :invite, :join]
   before_action :set_by_slug_team, only: [:show]
 
   def index
@@ -40,6 +40,17 @@ class TeamsController < ApplicationController
         format.json { render json: 200, status: :created }
       else
         format.json { render json: @team_user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def join
+    @team_user = TeamUser.new(team_id: @team.id, user_id: current_user.id)
+    respond_to do |format|
+      if @team_user.save
+        format.html { redirect_to team_path(@team.slug) }
+      else
+        format.html { redirect_to root_path }
       end
     end
   end

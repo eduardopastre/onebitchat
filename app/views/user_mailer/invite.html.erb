@@ -6,7 +6,7 @@
     <%= @user.email %> has invited you to join the OnbitChat team <%= @team.slug %>. Join now to start!
   </p>
 
-  <%= link_to root_url do %>
+  <%= link_to join_teams_url(@team.id) do %>
     <p style="background-color: #1eb300; height: 40px; width: 160px; display: inline-block;
       line-height: 42px; border-radius: 10px; color: #FFF; font-weight: bold;">
       Join Now

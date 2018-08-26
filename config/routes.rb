@@ -3,10 +3,11 @@ Rails.application.routes.draw do
 
   mount ActionCable.server => '/cable'
 
-  get '/:slug', to: 'teams#show'
+  get '/:slug', to: 'teams#show', as: :team
   
   resources :teams, only: [:create, :destroy] do
-    post 'invite/:id', to: "teams#invite", on: :collection
+    post 'invite/:id', to: 'teams#invite', on: :collection
+    get 'join/:id', to: 'teams#join', on: :collection, as: :join
   end
   resources :channels, only: [:show, :create, :destroy]
   resources :talks, only: [:show]

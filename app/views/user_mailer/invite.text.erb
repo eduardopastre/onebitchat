@@ -1,3 +1,7 @@
-User#invite
+Join <%= @team.slug %> on OnbitChat
 
-<%= @greeting %>, find me in app/views/user_mailer/invite.text.erb
+<%= @user.email %> has invited you to join the OnbitChat team <%= @team.slug %>. Join now to start!
+
+<%= link_to root_url do %>
+  Join Now
+<% end %>
